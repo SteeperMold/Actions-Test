@@ -71,7 +71,10 @@ jobs:
           sudo apt-get install -y rsync
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mkdir -p ${{ env.DEPLOY_DIRECTORY }}"
           rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' \
-          --exclude='.git' ./ ${{ env.HOST }}:${{ env.DEPLOY_DIRECTORY }}
+            --exclude='.git' \
+            backend/transport-engineers \
+            frontend/build/ \
+            ${{ env.HOST }}:${{ env.DEPLOY_DIRECTORY }}
 
       - name: Remove old systemd service file
         run: |
