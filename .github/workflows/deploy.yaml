@@ -13,7 +13,7 @@ jobs:
 
     env:
       HOST: ${{ vars.HOST }}
-      DEPLOY_DIRECTOR: /root/apps/transport-engineers
+      DEPLOY_DIRECTORY: /root/apps/transport-engineers
 
     steps:
       - name: Checkout code
