@@ -66,7 +66,7 @@ jobs:
           ${{ github.workspace }}/deployment/transport-engineers.service \
           ${{ env.HOST }}:/tmp/transport-engineers.service
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
-          "mv /tmp/url-shortener.service /etc/systemd/system/url-shortener.service"
+          "mv /tmp/transport-engineers.service /etc/systemd/system/transport-engineers.service"
 
       - name: Start application
         run: |
