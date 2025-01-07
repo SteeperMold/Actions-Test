@@ -53,7 +53,7 @@ jobs:
         run: |
           cd frontend
           npm install
-          CI=false SERVER_ADDRESS=http://${{ env.SERVER_IP }}/api npm run build
+          CI=false REACT_APP_SERVER_IP=http://${{ env.SERVER_IP }}/api npm run build
           cd ..
 
       - name: Delete old source code
