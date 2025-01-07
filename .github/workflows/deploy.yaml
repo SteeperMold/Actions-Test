@@ -31,7 +31,7 @@ jobs:
         run: |
           cd backend
           go mod download
-          go build -o gin ./cmd/main.go
+          go build -o transport-engineers ./cmd/main.go
           cd ..
 
       - name: Delete old source code
@@ -39,7 +39,8 @@ jobs:
           sudo apt-get install -y ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "rm -rf ${{ env.DEPLOY_DIRECTORY }}"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \ 
+          "rm -rf ${{ env.DEPLOY_DIRECTORY }}"
 
       - name: Deploy to VM
         run: |
@@ -47,3 +48,14 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mkdir -p ${{ env.DEPLOY_DIRECTORY }}"
           rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' \
           --exclude='.git' ./ ${{ env.HOST }}:${{ env.DEPLOY_DIRECTORY }}
+
+      - name: Remove old systemd service file
+        run: |
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
+          "rm -f /etc/systemd/system/transport-engineers.service"
+
+      - name: List workspace contents
+        run: |
+          echo "Listing deployment folder contents:"
+          ls -la ${{ github.workspace }}/deployment
+      
