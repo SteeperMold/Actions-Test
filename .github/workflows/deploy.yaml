@@ -16,7 +16,7 @@ jobs:
       DEPLOY_DIRECTORY: /root/apps/transport-engineers
 
     steps:
-      - name: Checkout code
+      - name: Checkout backend code
         uses: actions/checkout@v3
         with:
           ref: backend
@@ -26,6 +26,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.23.0
+
+      - name: Build go app
+        run: |
+          go mod download
+          go build -o gin ./backend/cmd/main.go
 
       - name: Delete old source code
         run: |
