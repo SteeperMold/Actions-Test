@@ -13,6 +13,7 @@ jobs:
 
     env:
       HOST: ${{ vars.HOST }}
+      SERVER_IP: ${{ vars.SERVER_IP }}
       DEPLOY_DIRECTORY: /root/apps/transport-engineers
 
     steps:
@@ -52,7 +53,7 @@ jobs:
         run: |
           cd frontend
           npm install
-          CI=false npm run build
+          CI=false SERVER_ADDRESS=http://${{ env.SERVER_IP }}/api npm run build
           cd ..
 
       - name: Delete old source code
