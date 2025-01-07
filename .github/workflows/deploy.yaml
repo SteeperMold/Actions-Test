@@ -40,7 +40,10 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \ 
-          "rm -rf ${{ env.DEPLOY_DIRECTORY }}"
+          "if [ -d ${{ env.DEPLOY_DIRECTORY }} ]; then
+            rm -rf ${{ env.DEPLOY_DIRECTORY }}
+          fi"
+
 
       - name: Deploy to VM
         run: |
@@ -58,4 +61,5 @@ jobs:
         run: |
           echo "Listing deployment folder contents:"
           ls -la ${{ github.workspace }}/deployment
+      
       
