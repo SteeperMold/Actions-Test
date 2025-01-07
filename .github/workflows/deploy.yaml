@@ -29,8 +29,10 @@ jobs:
 
       - name: Build go app
         run: |
-          go get
+          cd backend
+          go mod download
           go build -o gin ./backend/cmd/main.go
+          cd ..
 
       - name: Delete old source code
         run: |
