@@ -36,6 +36,24 @@ jobs:
           go mod download
           go build -o transport-engineers ./cmd/main.go
           cd ..
+      
+      - name: Checkout frontend
+        uses: actions/checkout@v3
+        with:
+          ref: frontend
+          path: frontend
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.16.0
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          cd ..
 
       - name: Delete old source code
         run: |
@@ -71,4 +89,4 @@ jobs:
       - name: Start application
         run: |
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
-          "systemctl daemon-reload && systemctl restart transport-engineers.service"
+          "systemctl daemon-reload && systemctl restart transport-engineers.service && systemctl restart nginx"
