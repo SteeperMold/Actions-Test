@@ -16,7 +16,10 @@ jobs:
       DEPLOY_DIRECTORY: /root/apps/transport-engineers
 
     steps:
-      - name: Checkout backend code
+      - name: Checkout main
+        uses: actions/checkout@v3
+
+      - name: Checkout backend
         uses: actions/checkout@v3
         with:
           ref: backend
