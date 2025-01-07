@@ -72,6 +72,7 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mkdir -p ${{ env.DEPLOY_DIRECTORY }}"
           rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' \
             backend/transport-engineers \
+            backend/.env \
             ${{ env.HOST }}:${{ env.DEPLOY_DIRECTORY }}/backend/
           rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' \
             frontend/build/ \
