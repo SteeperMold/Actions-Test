@@ -60,9 +60,15 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
           "rm -f /etc/systemd/system/transport-engineers.service"
 
-      - name: List workspace contents
+      - name: Copy systemd service file
         run: |
-          echo "Listing deployment folder contents:"
-          ls -la ${{ github.workspace }}/deployment
-      
-      
+          scp -i deploy_key.pem -o StrictHostKeyChecking=no \
+          ${{ github.workspace }}/deployment/transport-engineers.service \
+          ${{ env.HOST }}:/tmp/transport-engineers.service
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
+          "mv /tmp/url-shortener.service /etc/systemd/system/url-shortener.service"
+
+      - name: Start application
+        run: |
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \
+          "systemctl daemon-reload && systemctl restart transport-engineers.service"
