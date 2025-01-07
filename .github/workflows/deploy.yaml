@@ -39,11 +39,11 @@ jobs:
           sudo apt-get install -y ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key.pem
           chmod 600 deploy_key.pem
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} \ 
-          "if [ -d ${{ env.DEPLOY_DIRECTORY }} ]; then
-            rm -rf ${{ env.DEPLOY_DIRECTORY }}
-          fi"
-
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "
+            if [ -d '${{ env.DEPLOY_DIRECTORY }}' ]; then
+              rm -rf '${{ env.DEPLOY_DIRECTORY }}'
+            fi
+          "
 
       - name: Deploy to VM
         run: |
